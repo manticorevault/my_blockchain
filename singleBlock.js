@@ -1,7 +1,7 @@
 class singleBlock {
-    // Receives the block object 
+    // Receives the block object as an argument
     constructor({ timestamp, lastBlockHash, individualHash, data }) {
-        // Create the block's information based on this block's instance.
+        // Create the block's information based on this block's arguments.
 
         this.timestamp = timestamp;
         this.lastBlockHash = lastBlockHash;
@@ -10,11 +10,4 @@ class singleBlock {
     }
 }
 
-const genesisBlock = new singleBlock({
-    timestamp: "19/03/2021", 
-    lastBlockHash: "lastHash", 
-    individualHash: "hash", 
-    data: "block's data"
-});
-
-console.log("firstBlock", genesisBlock);
+module.exports = singleBlock;
