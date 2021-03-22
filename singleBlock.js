@@ -15,6 +15,14 @@ class singleBlock {
     static genesis() {
         return new singleBlock(GENESIS_DATA);
     }
+
+    static mineNewBlock({ lastBlock, data }) {
+        return new this({
+            timestamp: Date.now(),
+            lastBlockHash: lastBlock.individualHash,
+            data
+        });
+    }
 }
 
 module.exports = singleBlock;

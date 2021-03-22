@@ -33,4 +33,26 @@ describe("singleBlock", () => {
             expect(genesisBlock).toEqual(GENESIS_DATA);
         });
     });
+
+    describe("mineNewBlock()", () => {
+        const lastBlock = singleBlock.genesis();
+        const data = "mined data";
+        const minedNewBlock = singleBlock.mineNewBlock({ lastBlock, data });
+
+        it("returns a new singleBlock instance", () => {
+            expect(minedNewBlock instanceof singleBlock).toBe(true);
+        });
+
+        it("sets the `lastBlockHash` to be the `individualHash` of the lastBlock", () => {
+            expect(minedNewBlock.lastBlockHash).toEqual(lastBlock.individualHash);
+        });
+
+        it('sets the `data`', () => {
+            expect(minedNewBlock.data).toEqual(data);
+        });
+
+        it('sets a `timepstamp`', () => {
+            expect(minedNewBlock.timestamp).not.toEqual(undefined);
+        });
+    });
 });
