@@ -2,7 +2,7 @@
 
 const GENESIS_DATA = {
     timestamp: 1,
-    lastBlockHash: "-",
+    lastHash: "-",
     individualHash: "genesis-hash",
     data: []
 };

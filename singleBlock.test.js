@@ -1,21 +1,22 @@
 const { GENESIS_DATA } = require("./config");
 const singleBlock = require("./singleBlock");
+const hashing = require("./hashing");
 
 describe("singleBlock", () => {
     const timestamp = "date";
-    const lastBlockHash = "last-block-hash";
+    const lastHash = "last-block-hash";
     const individualHash = "personal-hash";
     const data = ["blockchain", "data"];
     const block = new singleBlock({
         timestamp,
-        lastBlockHash,
+        lastHash,
         individualHash,
         data
     });
 
-    it("the block has a timestamp, lastBlockHash, individualHash and data properties", () => {
+    it("the block has a timestamp, lastHash, individualHash and data properties", () => {
         expect(block.timestamp).toEqual(timestamp);
-        expect(block.lastBlockHash).toEqual(lastBlockHash);
+        expect(block.lastHash).toEqual(lastHash);
         expect(block.individualHash).toEqual(individualHash);
         expect(block.data).toEqual(data);
     });
@@ -43,8 +44,8 @@ describe("singleBlock", () => {
             expect(minedNewBlock instanceof singleBlock).toBe(true);
         });
 
-        it("sets the `lastBlockHash` to be the `individualHash` of the lastBlock", () => {
-            expect(minedNewBlock.lastBlockHash).toEqual(lastBlock.individualHash);
+        it("sets the `lastHash` to be the `individualHash` of the lastBlock", () => {
+            expect(minedNewBlock.lastHash).toEqual(lastBlock.individualHash);
         });
 
         it('sets the `data`', () => {
@@ -53,6 +54,11 @@ describe("singleBlock", () => {
 
         it('sets a `timepstamp`', () => {
             expect(minedNewBlock.timestamp).not.toEqual(undefined);
+        });
+
+        it("creates a SHA-256 `individual hash` based on the function's inputs", () => {
+            expect(minedNewBlock.individualHash)
+                .toEqual(hashing(minedNewBlock.timestamp, lastBlock.individualHash, data));
         });
     });
 });
