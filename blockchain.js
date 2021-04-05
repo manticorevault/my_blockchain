@@ -43,11 +43,11 @@ class Blockchain {
 
             const currentLastHash = chain[index - 1].individualHash;
 
-            const { timestamp, lastHash, individualHash, data } = block;
+            const { timestamp, lastHash, individualHash, nonce, difficulty, data } = block;
 
             if(lastHash !== currentLastHash) return false;
 
-            const validatedHash = hashing(timestamp, lastHash, data);
+            const validatedHash = hashing(timestamp, lastHash, data, nonce, difficulty);
 
             if (individualHash !== validatedHash) return false;
         }
