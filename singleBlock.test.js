@@ -7,11 +7,15 @@ describe("singleBlock", () => {
     const lastHash = "last-block-hash";
     const individualHash = "personal-hash";
     const data = ["blockchain", "data"];
+    const nonce = 1;
+    const difficulty = 1;
     const block = new singleBlock({
         timestamp,
         lastHash,
         individualHash,
-        data
+        data,
+        nonce,
+        difficulty
     });
 
     it("the block has a timestamp, lastHash, individualHash and data properties", () => {
@@ -19,6 +23,8 @@ describe("singleBlock", () => {
         expect(block.lastHash).toEqual(lastHash);
         expect(block.individualHash).toEqual(individualHash);
         expect(block.data).toEqual(data);
+        expect(block.nonce).toEqual(nonce);
+        expect(block.difficulty).toEqual(difficulty);
     });
 
     describe("test for a genesis function", () => {
@@ -58,7 +64,19 @@ describe("singleBlock", () => {
 
         it("creates a SHA-256 `individual hash` based on the function's inputs", () => {
             expect(minedNewBlock.individualHash)
-                .toEqual(hashing(minedNewBlock.timestamp, lastBlock.individualHash, data));
+                .toEqual(hashing(
+                    minedNewBlock.timestamp, 
+                    minedNewBlock.nonce, 
+                    minedNewBlock.difficulty, 
+                    lastBlock.individualHash, 
+                    data
+                )
+            );
+        });
+
+        it("sets a `hash` that matches the difficulty criteria", () => {
+            expect(minedNewBlock.individualHash.substring(0, minedNewBlock.difficulty))
+                .toEqual("0".repeat(minedNewBlock.difficulty))
         });
     });
 });
