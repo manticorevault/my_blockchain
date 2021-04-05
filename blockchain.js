@@ -1,4 +1,5 @@
 const singleBlock = require("./singleBlock");
+const hashing = require("./hashing");
 
 // Create the blockchain class to add the first block as genesis
 class Blockchain {
@@ -14,6 +15,29 @@ class Blockchain {
         });
 
         this.chain.push(newBlock);
+    }
+
+    static isValidChain(chain) {
+        if (JSON.stringify(chain[0]) !== JSON.stringify(singleBlock.genesis())) {
+            return false;
+        };
+
+        // Validate the chain with a for loop skipping the genesis block (chain[0])
+        for (let index = 1; index < chain.length; index++) {
+            const block = chain[index];
+
+            const currentLastHash = chain[index - 1].individualHash;
+
+            const { timestamp, lastHash, individualHash, data } = block;
+
+            if(lastHash !== currentLastHash) return false;
+
+            const validatedHash = hashing(timestamp, lastHash, data);
+
+            if (individualHash !== validatedHash) return false;
+        }
+
+        return true;
     }
 }
 
