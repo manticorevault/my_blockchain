@@ -1,4 +1,4 @@
-const { GENESIS_DATA } = require("./config");
+const { GENESIS_DATA, MINE_RATE } = require("./config");
 const hashing = require("./hashing");
 
 class singleBlock {
@@ -44,6 +44,16 @@ class singleBlock {
             individualHash
         //    individualHash: hashing(timestamp, lastHash, data, nonce, difficulty)
         });
+    }
+
+    static adjustDifficulty({ originalBlock, timestamp }) {
+        const { difficulty } = originalBlock;
+
+        const diff = timestamp - originalBlock.timestamp;
+
+        if(diff > MINE_RATE) return difficulty - 1;
+
+        return difficulty + 1;
     }
 }
 
