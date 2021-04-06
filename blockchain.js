@@ -50,7 +50,7 @@ class Blockchain {
             if (individualHash !== validatedHash) return false;
 
             // A guard condition against jumped difficulties
-            if ((lastDifficulty - difficulty) > 1) return false; 
+            if (Math.abs(lastDifficulty - difficulty) > 1) return false; 
         }
 
 
