@@ -1,5 +1,6 @@
 const { GENESIS_DATA, MINE_RATE } = require("./config");
 const hashing = require("./hashing");
+const hexToBinary = require("hex-to-binary");
 
 class singleBlock {
     // Receives the block object as an argument
@@ -37,7 +38,7 @@ class singleBlock {
             timestamp = Date.now();
             difficulty = singleBlock.adjustDifficulty({ originalBlock: lastBlock, timestamp });
             individualHash = hashing(timestamp, lastHash, data, nonce, difficulty);
-        } while (individualHash.substring(0, difficulty) !== "0".repeat(difficulty));
+        } while (hexToBinary(individualHash).substring(0, difficulty) !== "0".repeat(difficulty));
 
         return new this({
             timestamp,
