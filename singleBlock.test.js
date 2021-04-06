@@ -78,6 +78,12 @@ describe("singleBlock", () => {
             expect(minedNewBlock.individualHash.substring(0, minedNewBlock.difficulty))
                 .toEqual("0".repeat(minedNewBlock.difficulty))
         });
+
+        it("adjusts the block difficulty", () => {
+            const possibleResults = [lastBlock.difficulty + 1, lastBlock.difficulty - 1];
+
+            expect(possibleResults.includes(minedNewBlock.difficulty)).toBe(true);
+        });
     });
 
     describe("adjustDifficulty()", () => {
@@ -93,6 +99,12 @@ describe("singleBlock", () => {
                 originalBlock: block,
                 timestamp: block.timestamp + MINE_RATE + 100
             })).toEqual(block.difficulty - 1);
-        })
+        });
+
+        it("has a lower limit of one", () => {
+            block.difficulty = -1
+
+            expect(singleBlock.adjustDifficulty({ originalBlock: block})).toEqual(1);
+        });
     });
 });

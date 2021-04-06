@@ -21,17 +21,21 @@ class singleBlock {
 
     static mineNewBlock({ lastBlock, data }) {
 
-        let individualHash, timestamp;
         // Import timestamp and hash as individual variables
+        let individualHash, timestamp;
+
+        // Dynamic variable for difficulty
+        let { difficulty } = lastBlock;
 
         // const timestamp = Date.now();
         const lastHash = lastBlock.individualHash;
-        const { difficulty } = lastBlock;
+        
         let nonce = 0;
 
         do {
             nonce++;
             timestamp = Date.now();
+            difficulty = singleBlock.adjustDifficulty({ originalBlock: lastBlock, timestamp });
             individualHash = hashing(timestamp, lastHash, data, nonce, difficulty);
         } while (individualHash.substring(0, difficulty) !== "0".repeat(difficulty));
 
@@ -50,6 +54,9 @@ class singleBlock {
         const { difficulty } = originalBlock;
 
         const diff = timestamp - originalBlock.timestamp;
+
+        // Consider the edge case in which the difficulty would be 0
+        if(difficulty < 1) return 1;
 
         if(diff > MINE_RATE) return difficulty - 1;
 
