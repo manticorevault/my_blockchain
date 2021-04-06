@@ -39,18 +39,21 @@ class Blockchain {
 
         // Validate the chain with a for loop skipping the genesis block (chain[0])
         for (let index = 1; index < chain.length; index++) {
-            const block = chain[index];
-
+            const { timestamp, lastHash, individualHash, nonce, difficulty, data } = chain[index];
             const currentLastHash = chain[index - 1].individualHash;
+            const lastDifficulty = chain[index - 1].difficulty;
 
-            const { timestamp, lastHash, individualHash, nonce, difficulty, data } = block;
-
-            if(lastHash !== currentLastHash) return false;
+            if (lastHash !== currentLastHash) return false;
 
             const validatedHash = hashing(timestamp, lastHash, data, nonce, difficulty);
 
             if (individualHash !== validatedHash) return false;
+
+            // A guard condition against jumped difficulties
+            if ((lastDifficulty - difficulty) > 1) return false; 
         }
+
+
 
         return true;
     }

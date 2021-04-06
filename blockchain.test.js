@@ -1,5 +1,6 @@
 const Blockchain = require("./blockchain");
 const singleBlock = require("./singleBlock");
+const hashing = require("./hashing");
 
 describe("Blockchain", () => {
     let blockchain, newChain, originalChain;
@@ -56,6 +57,35 @@ describe("Blockchain", () => {
                 it ("returns false", () => {
 
                     blockchain.chain[2].data = "hacked-data"
+
+                    expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
+                });
+            });
+
+            describe("the chain contains a block with a so-called jumped difficulty", () => {
+                it("returns false", () => {
+                    const lastBlock = blockchain.chain[blockchain.chain.length - 1];
+
+                    const lastHash = lastBlock.individualHash;
+
+                    const timestamp = Date.now();
+                    const nonce = 0;
+                    const data = [];
+                    const difficulty = lastBlock.difficulty - 3;
+
+                    // Now call a block with jumped difficulty
+                    const individualHash = hashing(timestamp, lastHash, difficulty, nonce, data);
+
+                    const jumpedBlock = new singleBlock ({ 
+                        timestamp, 
+                        lastHash,
+                        individualHash,
+                        difficulty, 
+                        nonce, 
+                        data 
+                    })
+
+                    blockchain.chain.push(jumpedBlock);
 
                     expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
                 });
