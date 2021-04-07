@@ -1,4 +1,4 @@
-const hashing = require("./hashing");
+const hashing = require("../blockchain/hashing");
 
 describe("hashing()", () => {
     
