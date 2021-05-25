@@ -29,12 +29,24 @@ app.post("/api/mine", (req, res) => {
     // Add the new block
     blockchain.addBlock({ data })
 
+    // Call PubSub to broadcast the chain
+    pubsub.broadcastChain();
+
     // Return a confirmation to the end user, by returning the user to the blockchain scan
     res.redirect("/api/blocks");
 });
 
-// Listen to the server on port 3000
-const PORT = 3000;
+// Define the DEFAULT_PORT to 300 and creates the variable PEER_PORT
+const DEFAULT_PORT = 3000;
+let PEER_PORT;
+
+// Define a random PEER_PORT if the DEFAULT_PORT is taken
+if (process.env.GENERATE_PEER_PORT === 'true') {
+    PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
+}
+
+// Defines the PORT as the PEER_PORT or the DEFAULT_PORT, whichever is available
+const PORT = PEER_PORT || DEFAULT_PORT;
 
 app.listen(PORT, () => {
     console.log(`It's connected and running on port ${PORT}`)
