@@ -19,8 +19,6 @@ const DEFAULT_PORT = 3000;
 // Call the root node address
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
-setTimeout(() => pubsub.broadcastChain(), 1000);
-
 // Call the bodyParser middleware
 app.use(bodyParser.json());
 
@@ -69,5 +67,7 @@ const PORT = PEER_PORT || DEFAULT_PORT;
 app.listen(PORT, () => {
     console.log(`It's connected and running on port ${PORT}`);
 
-    syncChains();
+    if (PORT !== DEFAULT_PORT) {
+        syncChains();
+    }
 });

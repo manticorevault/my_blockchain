@@ -32,11 +32,15 @@ class PubSub {
     subscribeToChannels() {
         Object.values(CHANNELS).forEach(channel => {
             this.subscriber.subscribe(channel);
-        })
+        });
     }
 
     publish({ channel, message }) {
-        this.publisher.publish(channel, message);
+        this.subscriber.unsubscribe(channel, () => {
+            this.publisher.publish(channel, message, () => {
+                this.subscriber.subscribe(channel);
+            });
+        });
     }
 
     broadcastChain() {
