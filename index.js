@@ -3,8 +3,8 @@ const express = require("express");
 
 const request = require("request");
 const bodyParser = require("body-parser");
-const Blockchain = require("./blockchain/blockchain");
-const PubSub = require('./pubsub');
+const Blockchain = require("./blockchain");
+const PubSub = require('./application/pubsub');
 
 // Start the app
 const app = express();
