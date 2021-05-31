@@ -1,7 +1,6 @@
 const { verifySignature } = require("../utils");
 const Wallet = require("../wallet");
 const Transaction = require ("../wallet/transaction");
-const { verifySignature } = require("../utils");
 
 describe("Transaction", () => {
     let transaction, senderWallet, recipient, amount;
