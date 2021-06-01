@@ -1,6 +1,5 @@
 const { STARTING_BALANCE } = require("../blockchain/config");
-const { ec } = require("../utils");
-const hashing = require("../utils/hashing");
+const { ec, hashing } = require("../utils");
 
 class Wallet {
     constructor() {

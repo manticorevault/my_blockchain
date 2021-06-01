@@ -1,4 +1,4 @@
-const hashing = require("../utils/hashing");
+const { hashing } = require("../utils");
 
 describe("hashing()", () => {
     

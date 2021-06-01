@@ -1,6 +1,6 @@
 const { GENESIS_DATA, MINE_RATE } = require("../blockchain/config");
 const singleBlock = require("../blockchain/singleBlock");
-const hashing = require("../utils/hashing");
+const { hashing } = require("../utils");
 const hexToBinary = require("hex-to-binary");
 
 describe("singleBlock", () => {

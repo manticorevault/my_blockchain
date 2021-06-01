@@ -1,5 +1,5 @@
 const singleBlock = require("./singleBlock");
-const hashing = require("../utils/hashing");
+const { hashing } = require("../utils");
 
 // Create the blockchain class to add the first block as genesis
 class Blockchain {

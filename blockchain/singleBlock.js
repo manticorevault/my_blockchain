@@ -1,5 +1,5 @@
 const { GENESIS_DATA, MINE_RATE } = require("./config");
-const hashing = require("../utils/hashing");
+const { hashing } = require("../utils");
 const hexToBinary = require("hex-to-binary");
 
 class singleBlock {

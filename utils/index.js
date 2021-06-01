@@ -9,4 +9,4 @@ const verifySignature = ({ publicKey, data, signature }) => {
     return keyFromPublic.verify(hashing(data), signature)
 };
 
-module.exports = { ec, verifySignature };
+module.exports = { ec, verifySignature, hashing };
