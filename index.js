@@ -5,10 +5,18 @@ const request = require("request");
 const bodyParser = require("body-parser");
 const Blockchain = require("./blockchain");
 const PubSub = require('./application/pubsub');
+const TransactionPool = require("./wallet/transaction-pool");
+const Wallet = require("./wallet/index");
 
 // Start the app
 const app = express();
 const blockchain = new Blockchain();
+
+// Bring in the Wallet method
+const wallet = new Wallet();
+
+// Bring in the Transaction Pool
+const transactionPool = new TransactionPool();
 
 // Bring in the PubSub instance
 const pubsub = new PubSub({ blockchain });
@@ -39,6 +47,21 @@ app.post("/api/mine", (req, res) => {
 
     // Return a confirmation to the end user, by returning the user to the blockchain scan
     res.redirect("/api/blocks");
+});
+
+// Create an API call to conduct new transactions with an amount and a recipient
+
+app.post("/api/transact", (req, res) => {
+    const { amount, recipient } = req.body;
+
+    const transaction = wallet.createTransaction({ recipient, amount });
+
+    // Once the transaction has been created, set it into the app's transactionPool
+    transactionPool.setTransaction(transaction);
+    console.log("Transaction Pool: ", transactionPool);
+
+    // The response as a JSON object including the transaction
+    res.json({ transaction });
 });
 
 // Creates the syncChains method to request the ROOT_NODE API endpoint
