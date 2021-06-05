@@ -54,14 +54,22 @@ app.post("/api/mine", (req, res) => {
 app.post("/api/transact", (req, res) => {
     const { amount, recipient } = req.body;
 
-    const transaction = wallet.createTransaction({ recipient, amount });
+    let transaction;
+
+    // Handle invalid transactions
+    try {
+        // Create a transaction
+        transaction = wallet.createTransaction({ recipient, amount });
+    } catch (error) {
+        res.status(400).json({ type: "error", message: error.message });
+    }
 
     // Once the transaction has been created, set it into the app's transactionPool
     transactionPool.setTransaction(transaction);
     console.log("Transaction Pool: ", transactionPool);
 
     // The response as a JSON object including the transaction
-    res.json({ transaction });
+    res.json({ type: "success", transaction });
 });
 
 // Creates the syncChains method to request the ROOT_NODE API endpoint
