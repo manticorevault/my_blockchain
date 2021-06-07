@@ -4,12 +4,13 @@ const Wallet = require("../wallet/index");
 const { utils } = require("elliptic");
 
 describe("TransactionPool", () => {
-    let transactionPool, transaction;
+    let transactionPool, transaction, senderWallet;
 
     beforeEach(() => {
         transactionPool = new TransactionPool();
+        senderWallet = new Wallet()
         transaction = new Transaction({
-            senderWallet: new Wallet(),
+            senderWallet,
             recipient: "test-recipient",
             amount: 50
         });
@@ -21,6 +22,16 @@ describe("TransactionPool", () => {
 
             expect(transactionPool.transactionMap[transaction.id])
                 .toBe(transaction);
+        });
+    });
+
+    describe("existingTransaction()", () => {
+        it("returns an existing transaction after an input address", () => {
+            transactionPool.setTransaction(transaction);
+
+            expect(
+                transactionPool.existingTransaction({ inputAddress: senderWallet.publicKey })
+            ).toBe(transaction);
         });
     });
 });
