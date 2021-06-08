@@ -18,8 +18,8 @@ const wallet = new Wallet();
 // Bring in the Transaction Pool
 const transactionPool = new TransactionPool();
 
-// Bring in the PubSub instance
-const pubsub = new PubSub({ blockchain });
+// Bring in the PubSub instance and attach the blockchain and transactionPool
+const pubsub = new PubSub({ blockchain, transactionPool });
 
 // Define the DEFAULT_PORT to 3000 
 const DEFAULT_PORT = 3000;
@@ -66,11 +66,14 @@ app.post("/api/transact", (req, res) => {
         }
 
     } catch (error) {
-        res.status(400).json({ type: "error", message: error.message });
+        return res.status(400).json({ type: "error", message: error.message });
     }
 
     // Once the transaction has been created, set it into the app's transactionPool
     transactionPool.setTransaction(transaction);
+
+    // Notify when a new transaction occurs and joins the pool
+    pubsub.broadcastTransaction(transaction);
 
     // The response as a JSON object including the transaction
     res.json({ type: "success", transaction });
