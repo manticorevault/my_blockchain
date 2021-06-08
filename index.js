@@ -71,10 +71,14 @@ app.post("/api/transact", (req, res) => {
 
     // Once the transaction has been created, set it into the app's transactionPool
     transactionPool.setTransaction(transaction);
-    console.log("Transaction Pool: ", transactionPool);
 
     // The response as a JSON object including the transaction
     res.json({ type: "success", transaction });
+});
+
+// Add an endpoint for the transaction pool map, with a get request
+app.get("/api/transaction-pool-map", (req, res) => {
+    res.json(transactionPool.transactionMap);
 });
 
 // Creates the syncChains method to request the ROOT_NODE API endpoint
