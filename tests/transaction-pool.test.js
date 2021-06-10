@@ -37,10 +37,12 @@ describe("TransactionPool", () => {
     });
 
     describe("validTransactions()", () => {
-        let validTransactions;
+        let validTransactions, errorMock;
 
         beforeEach(() => {
             validTransactions = [];
+            errorMock = jest.fn();
+            global.console.error = errorMock;
 
             for (let counter = 0; counter < 10; counter++) {
                 transaction = new Transaction({
@@ -64,5 +66,11 @@ describe("TransactionPool", () => {
         it("returns all the valid transactions", () => {
             expect(transactionPool.validTransactions()).toEqual(validTransactions);
         });
+
+        it("logs errors anytime an invalid transaction occurs", () => {
+            transactionPool.validTransactions();
+
+            expect(errorMock).toHaveBeenCalled();
+        })
     });
 });
