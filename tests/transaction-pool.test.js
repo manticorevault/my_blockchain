@@ -2,6 +2,7 @@ const TransactionPool = require("../wallet/transaction-pool");
 const Transaction = require("../wallet/transaction");
 const Wallet = require("../wallet/index");
 const { utils } = require("elliptic");
+const { validTransaction } = require("../wallet/transaction");
 
 describe("TransactionPool", () => {
     let transactionPool, transaction, senderWallet;
@@ -32,6 +33,36 @@ describe("TransactionPool", () => {
             expect(
                 transactionPool.existingTransaction({ inputAddress: senderWallet.publicKey })
             ).toBe(transaction);
+        });
+    });
+
+    describe("validTransactions()", () => {
+        let validTransactions;
+
+        beforeEach(() => {
+            validTransactions = [];
+
+            for (let counter = 0; counter < 10; counter++) {
+                transaction = new Transaction({
+                    senderWallet,
+                    recipient: "anyone",
+                    amount: 30
+                });
+
+                if(counter%3 === 0) {
+                    transaction.input.amount = 999999;
+                } else if (counter%3 === 1){
+                    transaction.input.signature = new Wallet().sign("test");
+                } else {
+                    validTransactions.push(transaction);
+                }
+
+                transactionPool.setTransaction(transaction) 
+            }
+        });
+
+        it("returns all the valid transactions", () => {
+            expect(transactionPool.validTransactions()).toEqual(validTransactions);
         });
     });
 });
