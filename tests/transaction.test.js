@@ -1,3 +1,4 @@
+const { REWARD_INPUT, MINING_REWARD } = require("../blockchain/config");
 const { verifySignature } = require("../utils");
 const Wallet = require("../wallet");
 const Transaction = require ("../wallet/transaction");
@@ -161,6 +162,25 @@ describe("Transaction", () => {
                         .toEqual(originalSenderOutput - nextAmount - addedAmount);
                 });
             });
+        });
+    });
+
+    describe("rewardTransaction()", () => {
+        let rewardTransaction, minerWallet;
+
+        beforeEach(() => {
+            minerWallet = new Wallet();
+            rewardTransaction = Transaction.rewardTransaction({
+                minerWallet
+            });
+        });
+
+        it("creates a transaction with the reward input", () => {
+            expect(rewardTransaction.input).toEqual(REWARD_INPUT);
+        });
+
+        it("creates one transaction for the miner with the `MINING_REWARD`", () => {
+            expect(rewardTransaction.outputMap[minerWallet.publicKey]).toEqual(MINING_REWARD);
         });
     });
 });
