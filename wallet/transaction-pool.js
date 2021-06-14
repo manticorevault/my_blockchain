@@ -28,6 +28,18 @@ class TransactionPool {
             transaction => Transaction.validTransaction(transaction)
         );
     }
+    clearBlockcahinTransactions({ chain }) {
+        for (let counter = 1; counter < chain.length; counter++) {
+
+            const block = chain[counter]
+
+            for (let transaction of block.data) {
+                if (this.transactionMap[transaction.id]) {
+                    delete this.transactionMap[transaction.id];
+                }
+            }
+        }
+    }
 }
 
 module.exports = TransactionPool;

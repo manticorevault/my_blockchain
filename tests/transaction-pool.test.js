@@ -84,7 +84,7 @@ describe("TransactionPool", () => {
     describe("clearBlockchainTransactions", () => {
         it("clears the pool of any exisiting blockchain transactions", () => {
             const blockchain = new Blockchain();
-            const expectedTransaction = {};
+            const expectedTransactionMap = {};
 
             for (let counter = 0; counter < 6; counter++) {
                 const transaction = new Wallet().createTransaction({
