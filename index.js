@@ -7,6 +7,7 @@ const Blockchain = require("./blockchain");
 const PubSub = require('./application/pubsub');
 const TransactionPool = require("./wallet/transaction-pool");
 const Wallet = require("./wallet/index");
+const TransactionMiner = require("./application/transaction-miner");
 
 // Start the app
 const app = express();
@@ -20,6 +21,9 @@ const transactionPool = new TransactionPool();
 
 // Bring in the PubSub instance and attach the blockchain and transactionPool
 const pubsub = new PubSub({ blockchain, transactionPool });
+
+// Bring in and instantiate the TransactionMiner
+const transactionMiner = new TransactionMiner({ blockchain, transactionPool, wallet, pubsub });
 
 // Define the DEFAULT_PORT to 3000 
 const DEFAULT_PORT = 3000;
@@ -82,6 +86,14 @@ app.post("/api/transact", (req, res) => {
 // Add an endpoint for the transaction pool map, with a get request
 app.get("/api/transaction-pool-map", (req, res) => {
     res.json(transactionPool.transactionMap);
+});
+
+// Get request to mine transactions
+app.get("/api/mine-transactions", (req, res) => {
+    transactionMiner.mineTransactions();
+
+    // Redirect the request to the blocks page in the API
+    res.redirect("/api/blocks");
 });
 
 // Creates the syncWithRoot method to request the ROOT_NODE API endpoint

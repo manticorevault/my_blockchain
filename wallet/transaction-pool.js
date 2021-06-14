@@ -28,7 +28,8 @@ class TransactionPool {
             transaction => Transaction.validTransaction(transaction)
         );
     }
-    clearBlockcahinTransactions({ chain }) {
+
+    clearBlockchainTransactions({ chain }) {
         for (let counter = 1; counter < chain.length; counter++) {
 
             const block = chain[counter]
