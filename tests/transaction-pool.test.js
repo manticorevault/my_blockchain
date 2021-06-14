@@ -71,6 +71,14 @@ describe("TransactionPool", () => {
             transactionPool.validTransactions();
 
             expect(errorMock).toHaveBeenCalled();
-        })
+        });
+    });
+
+    describe("clear()", () => {
+        it("clears the transactions", () => {
+            transactionPool.clear();
+
+            expect(transactionPool.transactionMap).toEqual({});
+        });
     });
 });
