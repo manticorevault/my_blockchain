@@ -22,6 +22,24 @@ class Wallet {
 
         return new Transaction({ senderWallet: this, recipient, amount });
     }
+
+    static calculateBalance({ chain, address }) {
+        let outputsTotal = 0;
+
+        for (let counter = 1; counter < chain.length; counter++) {
+            const block = chain[counter];
+
+            for (let transaction of block.data) {
+                const addressOutput = transaction.outputMap[address];
+
+                if (addressOutput) {
+                    outputsTotal = outputsTotal + addressOutput;
+                }
+            }
+        }
+
+        return STARTING_BALANCE + outputsTotal;
+    }
 };
 
 module.exports = Wallet;
