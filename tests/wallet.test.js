@@ -1,6 +1,8 @@
 const Wallet = require("../wallet/index");
 const Transaction = require("../wallet/transaction");
 const { verifySignature } = require("../utils")
+const Blockchain = require("../blockchain");
+const { STARTING_BALANCE } = require("../blockchain/config");
 
 describe("Wallet", () => {
     let wallet;
@@ -71,6 +73,56 @@ describe("Wallet", () => {
 
             it("outputs the amount of the recipient", () => {
                 expect(transaction.outputMap[recipient]).toEqual(amount);
+            });
+        });
+    });
+
+    describe("calculateBalance()", () => {
+        let blockchain ;
+
+        beforeEach(() => {
+            blockchain = new Blockchain();
+        });
+
+        describe("and there are no outputs for the wallet", () => {
+            it("returns the `STARTING_BALANCE`", () => {
+                expect(
+                    Wallet.calculateBalance({
+                        chain: blockchain.chain,
+                        address: wallet.publicKey
+                    })
+                ).toEqual(STARTING_BALANCE);
+            });
+        });
+
+        describe("and there ARE outputs for the wallet", () => {
+            let firstTransaction, secondTransaction;
+
+            beforeEach(() => {
+                firstTransaction = new Wallet().createTransaction({
+                    recipient: wallet.publicKey,
+                    amount: 50
+                });
+
+                secondTransaction = new Wallet().createTransaction({
+                    recipient: wallet.publicKey,
+                    amount: 30
+                });
+
+                blockchain.addBlock({ data: [firstTransaction, secondTransaction] });
+            });
+            
+            it("adds the sum of all outputs to the wallet balance", () => {
+                expect(
+                    Wallet.calculateBalance({
+                        chain: blockchain.chain,
+                        address: wallet.publicKey
+                    })
+                ).toEqual(
+                    STARTING_BALANCE + 
+                    firstTransaction.outputMap[wallet.publicKey] +
+                    secondTransaction.outputMap[wallet.publicKey]
+                );
             });
         });
     });
