@@ -61,7 +61,7 @@ describe("Wallet", () => {
                 amount = 50,
                 recipient = "test-address",
                 transaction = wallet.createTransaction({ amount, recipient })
-            })
+            });
 
             it("creates an instance of `Transaction`", () => {
                 expect(transaction instanceof Transaction).toBe(true);
@@ -73,6 +73,26 @@ describe("Wallet", () => {
 
             it("outputs the amount of the recipient", () => {
                 expect(transaction.outputMap[recipient]).toEqual(amount);
+            });
+        });
+
+        describe("and a chain is passed", () => {
+            it("calls `Wallet.calculateBalance`", () => {
+                const calculateBalanceTest = jest.fn();
+
+                const trueCalculateBalance = Wallet.calculateBalance;
+
+                Wallet.calculateBalance = calculateBalanceTest;
+
+                wallet.createTransaction({
+                    recipient: "test",
+                    amount: 50,
+                    chain: new Blockchain().chain
+                });
+
+                expect(calculateBalanceTest).toHaveBeenCalled();
+
+                Wallet.calculateBalance = trueCalculateBalance;
             });
         });
     });
@@ -111,7 +131,7 @@ describe("Wallet", () => {
 
                 blockchain.addBlock({ data: [firstTransaction, secondTransaction] });
             });
-            
+
             it("adds the sum of all outputs to the wallet balance", () => {
                 expect(
                     Wallet.calculateBalance({
