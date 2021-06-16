@@ -197,7 +197,7 @@ describe("Wallet", () => {
                             recentTransaction.outputMap[wallet.publicKey] +
                             sameBlockTransaction.outputMap[wallet.publicKey] +
                             nextBlockTransaction.outputMap[wallet.publicKey]
-                        )
+                        );
                     });
                 });
             });
