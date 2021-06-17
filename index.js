@@ -100,6 +100,21 @@ app.get("/api/mine-transactions", (req, res) => {
     res.redirect("/api/blocks");
 });
 
+// Get request to retrieve the wallet's info
+app.get("/api/wallet-info", (req, res) => {
+    // Define the address as wallet.publicKey for DRY principles.
+    const address = wallet.publicKey;
+
+    res.json({ 
+        address,
+        balance: Wallet.calculateBalance({ 
+            chain: blockchain.chain, 
+            address
+        })
+     })
+});
+
+
 // Creates the syncWithRoot method to request the ROOT_NODE API endpoint
 const syncWithRoot = () => {
     request({ url: `${ROOT_NODE_ADDRESS}/api/blocks` }, (error, response, body) => {
