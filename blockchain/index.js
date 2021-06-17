@@ -1,5 +1,7 @@
 const singleBlock = require("./singleBlock");
+const Transaction = require("../wallet/transaction");
 const { hashing } = require("../utils");
+const { REWARD_INPUT, MINING_REWARD } = require("./config");
 
 // Create the blockchain class to add the first block as genesis
 class Blockchain {
@@ -32,6 +34,39 @@ class Blockchain {
         
         console.log("Replacing the current chain with", chain);
         this.chain = chain;
+    }
+
+    validTransactionData({ chain }) {
+        for (let counter = 1; counter < chain.length; counter++) {
+            const block = chain[counter];
+            let rewardCounter = 0;
+
+            for (let transaction of block.data) {
+                if (transaction.input.address === REWARD_INPUT.address) {
+                    rewardCounter += 1;
+
+                    if (rewardCounter > 1) {
+                        console.error("Miner rewards exceed proposed limits");
+
+                        return false
+                    }
+
+                    if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
+                        console.error("Miner reward amount is invalid");
+
+                        return false;
+                    }
+                } else {
+                    if (!Transaction.validTransaction(transaction)) {
+                        console.error("This is an invalid Transaction!");
+
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     static isValidChain(chain) {
