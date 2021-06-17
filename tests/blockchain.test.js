@@ -214,16 +214,22 @@ describe("Blockchain", () => {
             });
 
             describe("and the transaction IS a reward transaction", () => {
+                it("returns false", () => {
+                    rewardTransaction.outputMap[wallet.publicKey] = 666666;
+
+                    newChain.addBlock({ data: [transaction, rewardTransaction] });
+
+                    expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                });
+            });
+            
+            describe("and the transaction data has at least one malfored input", () => {
                 it("returns false", () => {});
             });
-        });
-
-        describe("and the transaction data has at least one malfored input", () => {
-            it("returns false", () => {});
-        });
-
-        describe("and the transaction contains multiple identical transactions", () => {
-            it("returns false", () => {});
+    
+            describe("and the transaction contains multiple identical transactions", () => {
+                it("returns false", () => {});
+            });
         });
     });
 });
