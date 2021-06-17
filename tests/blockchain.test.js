@@ -212,6 +212,18 @@ describe("Blockchain", () => {
                     expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
                 });
             });
+
+            describe("and the transaction IS a reward transaction", () => {
+                it("returns false", () => {});
+            });
+        });
+
+        describe("and the transaction data has at least one malfored input", () => {
+            it("returns false", () => {});
+        });
+
+        describe("and the transaction contains multiple identical transactions", () => {
+            it("returns false", () => {});
         });
     });
 });
