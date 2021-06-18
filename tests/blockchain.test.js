@@ -169,6 +169,22 @@ describe("Blockchain", () => {
                 });
             });
         });
+
+        describe("and the `validateTransaction` is true", () => {
+            it("calls the validTransactionData()", () => {
+                const validTransactionDataTest = jest.fn();
+
+                blockchain.validTransactionData = validTransactionDataTest;
+
+                newChain.addBlock({ data: "test" });
+                blockchain.replaceChain(
+                    newChain.chain,
+                    true
+                );
+
+                expect(validTransactionDataTest).toHaveBeenCalled();
+            });
+        });
     });
 
     describe("validTransactionData()", () => {

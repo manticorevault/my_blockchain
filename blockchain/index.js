@@ -31,7 +31,7 @@ class Blockchain {
             return;
         }
 
-        if (validateTransactions && !this.validTransactionData({ data })) {
+        if (validateTransactions && !this.validTransactionData({ chain })) {
             console.error("The chain must be valid");
             return;
         }
