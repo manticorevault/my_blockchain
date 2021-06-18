@@ -40,6 +40,8 @@ class Blockchain {
     validTransactionData({ chain }) {
         for (let counter = 1; counter < chain.length; counter++) {
             const block = chain[counter];
+            // Create a set of unique items, so the transactions are unique
+            const transactionSet = new Set();
             let rewardCounter = 0;
 
             for (let transaction of block.data) {
@@ -73,6 +75,13 @@ class Blockchain {
                         console.error("Invalid input amount")
 
                         return false;
+                    }
+
+                    if (transactionSet.has(transaction)) {
+                        console.error("There is a duplicated transaction in the block")
+                        return false; 
+                    } else {
+                        transactionSet.add(transaction);
                     }
                 }
             }
