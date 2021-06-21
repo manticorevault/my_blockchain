@@ -1,7 +1,7 @@
 // Add the express server
 const express = require("express");
-
 const request = require("request");
+const path = require("path");
 const bodyParser = require("body-parser");
 const Blockchain = require("./blockchain");
 const PubSub = require('./application/pubsub');
@@ -115,7 +115,11 @@ app.get("/api/wallet-info", (req, res) => {
 });
 
 // Accepts HTTP requests from the index.html
-app.get("*") 
+app.get("*", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "./client/index.html")   
+    );
+});
 
 // Creates the syncWithRoot method to request the ROOT_NODE API endpoint
 const syncWithRoot = () => {
