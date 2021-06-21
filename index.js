@@ -114,6 +114,8 @@ app.get("/api/wallet-info", (req, res) => {
      })
 });
 
+// Accepts HTTP requests from the index.html
+app.get("*") 
 
 // Creates the syncWithRoot method to request the ROOT_NODE API endpoint
 const syncWithRoot = () => {
