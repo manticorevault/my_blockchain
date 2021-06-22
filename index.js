@@ -36,7 +36,7 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 app.use(bodyParser.json());
 
 // Call up the express middleware to server static files
-app.use(express.static(path.join(__dirname, "client")));
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Create a get request to get all the blocks on the blockchain
 app.get("/api/blocks", (req, res) => {
@@ -121,7 +121,7 @@ app.get("/api/wallet-info", (req, res) => {
 // Accepts HTTP requests from the index.html
 app.get("*", (req, res) => {
     res.sendFile(
-        path.join(__dirname, "client/index.html")   
+        path.join(__dirname, "client/dist/index.html")   
     );
 });
 
