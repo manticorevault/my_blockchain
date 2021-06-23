@@ -1,9 +1,10 @@
 import React from "react";
 import { render } from "react-dom";
+import App from "./components/App";
 
 render(
     <div>
-        Dvorakchain: Parcel automatic changes! - Dynamic front-end!
+        <App />
     </div>,
     
     document.getElementById(
