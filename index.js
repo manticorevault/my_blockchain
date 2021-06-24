@@ -183,6 +183,21 @@ const walletDevAction = () => generateWalletTransaction({
 });
 
 // Create a loop to conduct a combination of these helper method transactions
+for (let counter = 0; counter < 10; counter++) {
+    if (counter%3 === 0) {
+        walletAction();
+        walletTestAction();
+    } else if (counter%3 === 1) {
+        walletAction();
+        walletDevAction();
+    } else {
+        walletTestAction();
+        walletDevAction();
+    }
+
+    // Call the transactionMiner to mineTransactions() and add them to the blockchain
+    transactionMiner.mineTransactions();
+}
 
 // Creates the variable PEER_PORT
 let PEER_PORT;
