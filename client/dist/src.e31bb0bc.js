@@ -23161,6 +23161,19 @@ var App = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      fetch("http://localhost:3000/api/wallet-info").then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return _this2.setState({
+          walletInfo: json
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$state$walletInf = this.state.walletInfo,
@@ -23215,7 +23228,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37453" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45765" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
