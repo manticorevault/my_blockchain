@@ -6,7 +6,7 @@ const MINE_RATE = 1000;
 const GENESIS_DATA = {
     timestamp: 1,
     lastHash: "-",
-    individualHash: "This is the [Peter Gabriel, Tony Banks, Mike Rutherford, Phil Collins, Steve Hackett] block",
+    individualHash: "[Peter Gabriel, Tony Banks, Mike Rutherford, Phil Collins, Steve Hackett]",
     difficulty: INITIAL_DIFFICULTY,
     nonce: 0,
     data: []
