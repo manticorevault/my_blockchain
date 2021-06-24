@@ -23156,7 +23156,7 @@ var Block = /*#__PURE__*/function (_Component) {
           timestamp = _this$props$block.timestamp,
           individualHash = _this$props$block.individualHash,
           data = _this$props$block.data;
-      var individualHashVisual = "".concat(individualHash.substring(0, 75), "~");
+      var individualHashVisual = "".concat(individualHash.substring(0, 15), "~");
       var stringifiedData = JSON.stringify(data);
       var dataVisual = stringifiedData.length > 42 ? "".concat(stringifiedData.substring(0, 42)) : stringifiedData;
       return /*#__PURE__*/_react.default.createElement("div", {

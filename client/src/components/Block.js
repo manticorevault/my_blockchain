@@ -7,7 +7,7 @@ class Block extends Component {
             individualHash,
             data
         } = this.props.block;
-        const individualHashVisual = `${individualHash.substring(0, 75)}~`;
+        const individualHashVisual = `${individualHash.substring(0, 15)}~`;
 
         const stringifiedData = JSON.stringify(data);
         const dataVisual = stringifiedData.length > 42 ? `${stringifiedData.substring(0, 42)}` : stringifiedData;
@@ -20,7 +20,7 @@ class Block extends Component {
                 </div> 
 
                 <br />
-                
+
                 <div> 
                     Timestamp: { new Date(timestamp).toLocaleString() }
                 </div>
