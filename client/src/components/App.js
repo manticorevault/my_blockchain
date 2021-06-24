@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import Blocks from "./Blocks";
 
 class App extends Component { 
 
     state = { walletInfo: {
-        address: "test-wallet",
-        balance: "4242"
+
     } };
 
     componentDidMount() {
@@ -33,6 +33,8 @@ class App extends Component {
                 <div>
                     Balance: {balance}
                 </div>
+                <br />
+                <Blocks />
             </div>
         )
     }
