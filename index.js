@@ -147,6 +147,43 @@ const syncWithRoot = () => {
     });
 };
 
+// Add two test wallets for development purpose, to create transactional data visualized in the front end
+const walletTest = new Wallet();
+const walletDev = new Wallet();
+
+// Create a helper method to help conduct transactions between wallets
+const generateWalletTransaction = ({ wallet, recipient, amount }) => {
+    const transaction = wallet.createTransaction({
+        recipient,
+        amount,
+        chain: blockchain.chain
+    });
+
+    transactionPool.setTransaction(transaction);
+};
+
+// Create helper methods to deal with walletActions
+const walletAction = () => generateWalletTransaction({
+    wallet, 
+    recipient: walletTest.publicKey, 
+    amount: 10
+});
+
+    
+const walletTestAction = () => generateWalletTransaction({
+    wallet: walletTest,
+    recipient: walletDev.publicKey,
+    amount: 15
+});
+
+const walletDevAction = () => generateWalletTransaction({
+    wallet: walletDev,
+    recipient: wallet.publicKey,
+    amount: 25
+});
+
+// Create a loop to conduct a combination of these helper method transactions
+
 // Creates the variable PEER_PORT
 let PEER_PORT;
 

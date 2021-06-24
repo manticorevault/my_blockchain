@@ -23174,7 +23174,11 @@ var Blocks = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       console.log("this.state", this.state);
-      return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Block scanner"));
+      return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Block scanner"), this.state.blocks.map(function (block) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: block.individualHash
+        }, block.individualHash);
+      }));
     }
   }]);
 
@@ -23310,7 +23314,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43455" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39171" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

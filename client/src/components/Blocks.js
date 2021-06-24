@@ -18,6 +18,17 @@ class Blocks extends Component {
                 <h2>
                     Block scanner
                 </h2>
+
+                {
+                    this.state.blocks.map(block => {
+                        return (
+                            <div key={block.individualHash}>
+                                {block.individualHash}
+                            </div>
+                        )
+                    })
+                }
+
             </div>
         );
     }
