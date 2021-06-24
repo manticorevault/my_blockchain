@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Blocks from "./Blocks";
+import logo from "../assets/logo.png";
 
 class App extends Component { 
 
@@ -21,10 +22,16 @@ class App extends Component {
 
         return (
             <div>
+
+                <img className="logo" src={logo} />
+                
+                <br />
                 
                 <div>
-                    This is the App Component
+                    DvorakChain
                 </div>
+
+                <br />
 
                 <div>
                     Address: {address}
