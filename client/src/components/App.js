@@ -21,7 +21,7 @@ class App extends Component {
         const { address, balance } = this.state.walletInfo;
 
         return (
-            <div>
+            <div className="App">
 
                 <img className="logo" src={logo} />
                 
@@ -33,13 +33,16 @@ class App extends Component {
 
                 <br />
 
-                <div>
-                    Address: {address}
+                <div className="WalletInfo">
+                    <div>
+                        Address: {address}
+                    </div>
+
+                    <div>
+                        Balance: {balance}
+                    </div>
                 </div>
 
-                <div>
-                    Balance: {balance}
-                </div>
                 <br />
                 <Blocks />
             </div>
