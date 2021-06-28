@@ -16,7 +16,7 @@ const Transaction = ({ transaction }) => {
                     return (
                         <div key={ recipient }>
                             
-                            From: { `${ recipient.substring(0, 20) }~` } | 
+                            To: { `${ recipient.substring(0, 20) }~` } | 
                             Amount Sent: { outputMap[recipient] }
 
                         </div>

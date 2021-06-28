@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 import Transaction from "./Transaction";
 import { Link } from "react-router-dom";
+import history from "../history";
 
 const POLL_INTERVAL_MS = 10000;
 
@@ -12,6 +14,18 @@ class TransactionPool extends Component {
             .then(response => response.json())
             .then(json => this.setState({ transactionPoolMap: json }));
     };
+
+    fetchMineTransactions = () => {
+        fetch(`${ document.location.origin }/api/mine-transactions`)
+            .then(response => {
+                if (response.status === 200) {
+                    alert("Successfully Mined!");
+                    history.push("/blocks");
+                } else {
+                    alert("This Mining request could not be completed");
+                }
+            })
+    }
 
     componentDidMount() {
         this.fetchTransactionPoolMap();
@@ -33,6 +47,7 @@ class TransactionPool extends Component {
                     <Link to="/">
                         My Wallet
                     </Link>
+                </div>
 
                     <h2>
                         Transaction Pool
@@ -51,7 +66,15 @@ class TransactionPool extends Component {
                             )
                         })
                     }
-                </div>
+            
+                <hr />
+
+                <Button 
+                    bsStyle="danger"
+                    onClick={ this.fetchMineTransactions }
+                > 
+                    Mine Transaction 
+                </Button>
             </div>
         )
     }

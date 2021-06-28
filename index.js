@@ -88,7 +88,7 @@ app.post("/api/transact", (req, res) => {
     pubsub.broadcastTransaction(transaction);
 
     // The response as a JSON object including the transaction
-    res.json({ type: "success", transaction });
+    res.json({ type: "Success", transaction });
 });
 
 // Add an endpoint for the transaction pool map, with a get request

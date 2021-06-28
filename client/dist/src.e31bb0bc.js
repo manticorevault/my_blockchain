@@ -46567,7 +46567,7 @@ var Transaction = function Transaction(_ref) {
   }, /*#__PURE__*/_react.default.createElement("div", null, "From: ", "".concat(input.address.substring(0, 20), "~"), " | Balance: ", input.amount), recipient.map(function (recipient) {
     return /*#__PURE__*/_react.default.createElement("div", {
       key: recipient
-    }, "From: ", "".concat(recipient.substring(0, 20), "~"), " | Amount Sent: ", outputMap[recipient]);
+    }, "To: ", "".concat(recipient.substring(0, 20), "~"), " | Amount Sent: ", outputMap[recipient]);
   }));
 };
 
@@ -46909,9 +46909,13 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _reactBootstrap = require("react-bootstrap");
+
 var _Transaction = _interopRequireDefault(require("./Transaction"));
 
 var _reactRouterDom = require("react-router-dom");
+
+var _history = _interopRequireDefault(require("../history"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46967,6 +46971,16 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
           transactionPoolMap: json
         });
       });
+    }, _this.fetchMineTransactions = function () {
+      fetch("".concat(document.location.origin, "/api/mine-transactions")).then(function (response) {
+        if (response.status === 200) {
+          alert("Successfully Mined!");
+
+          _history.default.push("/blocks");
+        } else {
+          alert("This Mining request could not be completed");
+        }
+      });
     }, _temp));
   }
 
@@ -46992,13 +47006,16 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
         className: "TransactionPool"
       }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
         to: "/"
-      }, "My Wallet"), /*#__PURE__*/_react.default.createElement("h2", null, "Transaction Pool"), Object.values(this.state.transactionPoolMap).map(function (transaction) {
+      }, "My Wallet")), /*#__PURE__*/_react.default.createElement("h2", null, "Transaction Pool"), Object.values(this.state.transactionPoolMap).map(function (transaction) {
         return /*#__PURE__*/_react.default.createElement("div", {
           key: transaction.id
         }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transaction.default, {
           transaction: transaction
         }));
-      })));
+      }), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        bsStyle: "danger",
+        onClick: this.fetchMineTransactions
+      }, "Mine Transaction"));
     }
   }]);
 
@@ -47007,7 +47024,7 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
 
 var _default = TransactionPool;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","./Transaction":"components/Transaction.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","./Transaction":"components/Transaction.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","../history":"history.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -47146,7 +47163,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43101" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46225" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
