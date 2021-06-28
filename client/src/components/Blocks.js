@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Block from "./Block";
 
 class Blocks extends Component {
@@ -16,6 +17,11 @@ class Blocks extends Component {
 
         return(
             <div>
+                <div>
+                    <Link to="/">
+                        My Wallet
+                    </Link>
+                </div>
                 <h2>
                     Block scanner
                 </h2>

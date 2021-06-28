@@ -29,8 +29,17 @@ body {
     margin: 2%;
 }
 
+.Transact {
+    margin: 15%;
+}
+
 .Transaction-Field {
     padding: 6%;
+}
+
+a, a:hover {
+    color: yellowgreen;
+    text-decoration: underline;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

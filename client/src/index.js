@@ -5,6 +5,7 @@ import history from "./history";
 
 import App from "./components/App";
 import Blocks from "./components/Blocks";
+import Transact from "./components/Transact";
 
 import "./index.css";
 
@@ -14,6 +15,8 @@ render(
             <Route exact={true} path="/" component={ App } />
 
             <Route path="/blocks" component={ Blocks } />
+
+            <Route path="/transact" component={ Transact } />
         </Switch>
     </Router>,
     

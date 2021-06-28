@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import logo from "../assets/logo.png";
 
 class App extends Component { 
@@ -27,7 +29,21 @@ class App extends Component {
                 <br />
                 
                 <div>
-                    DvorakChain
+                    My Wallet
+                </div>
+
+                <br />
+
+                <div>
+                    <Link to="/blocks">
+                        Block Scanner
+                    </Link>
+                </div>
+
+                <div>
+                    <Link to="/transact">
+                        Handle Transactions
+                    </Link>
                 </div>
 
                 <br />
