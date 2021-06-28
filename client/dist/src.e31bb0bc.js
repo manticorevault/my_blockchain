@@ -46841,13 +46841,30 @@ var Transact = /*#__PURE__*/function (_Component) {
       _this.setState({
         amount: Number(event.target.value)
       });
+    }, _this.handleTransaction = function () {
+      var _this$state = _this.state,
+          recipient = _this$state.recipient,
+          amount = _this$state.amount;
+      fetch("http://localhost:3000/api/transact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          recipient: recipient,
+          amount: amount
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        alert(json.message || json.type);
+      });
     }, _temp));
   }
 
   _createClass(Transact, [{
     key: "render",
     value: function render() {
-      console.log("this.state", this.state);
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Transact"
       }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
@@ -46862,7 +46879,10 @@ var Transact = /*#__PURE__*/function (_Component) {
         placeholder: "Transaction Value",
         value: this.state.amount,
         onChange: this.updateAmount
-      })));
+      })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        bsStyle: "danger",
+        onClick: this.handleTransaction
+      }, "Confirm")));
     }
   }]);
 
