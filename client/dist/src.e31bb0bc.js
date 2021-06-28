@@ -23144,24 +23144,41 @@ var Block = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(Block);
 
   function Block() {
+    var _temp, _this;
+
     _classCallCheck(this, Block);
 
-    return _super.apply(this, arguments);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _super.call.apply(_super, [this].concat(args)), _this.state = {
+      transactionVisual: false
+    }, _this.transactionToggle = function () {
+      _this.setState({
+        transactionVisual: !_this.state.transactionVisual
+      });
+    }, _temp));
   }
 
   _createClass(Block, [{
+    key: "transactionVisual",
+    get: function get() {
+      var data = this.props.block.data;
+      var stringifiedData = JSON.stringify(data);
+      var dataVisual = stringifiedData.length > 42 ? "".concat(stringifiedData.substring(0, 42)) : stringifiedData;
+      return /*#__PURE__*/_react.default.createElement("div", null, "Data: ", dataVisual);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props$block = this.props.block,
           timestamp = _this$props$block.timestamp,
-          individualHash = _this$props$block.individualHash,
-          data = _this$props$block.data;
+          individualHash = _this$props$block.individualHash;
       var individualHashVisual = "".concat(individualHash.substring(0, 15), "~");
-      var stringifiedData = JSON.stringify(data);
-      var dataVisual = stringifiedData.length > 42 ? "".concat(stringifiedData.substring(0, 42)) : stringifiedData;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Block"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Block Hash: ", individualHashVisual), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Timestamp: ", new Date(timestamp).toLocaleString()), /*#__PURE__*/_react.default.createElement("div", null, "Data: ", dataVisual));
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Block Hash: ", individualHashVisual), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Timestamp: ", new Date(timestamp).toLocaleString()), this.transactionVisual);
     }
   }]);
 
@@ -23473,7 +23490,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41359" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36267" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
