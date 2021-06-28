@@ -23,7 +23,7 @@ class Blocks extends Component {
                 {
                     this.state.blocks.map(block => {
                         return (
-                            <Block key={block.individualHash} block={block} />
+                            <Block key={ block.individualHash } block={ block } />
                         )
                     })
                 }

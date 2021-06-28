@@ -5,7 +5,7 @@ const Transaction = ({ transaction }) => {
     const recipient = Object.keys(outputMap);
 
     return (
-        <div>
+        <div className="Transaction-Field">
             <div>
                 From: { `${ input.address.substring(0, 20) }~` } | 
                 Balance: { input.amount }
@@ -16,7 +16,7 @@ const Transaction = ({ transaction }) => {
                     return (
                         <div key={ recipient }>
                             
-                            Recipient address: { `${ recipient.substring(0, 20) }~` } | 
+                            From: { `${ recipient.substring(0, 20) }~` } | 
                             Amount Sent: { outputMap[recipient] }
 
                         </div>
