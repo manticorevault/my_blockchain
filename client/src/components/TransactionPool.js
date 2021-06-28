@@ -16,10 +16,14 @@ class TransactionPool extends Component {
     componentDidMount() {
         this.fetchTransactionPoolMap();
 
-        setInterval(
+        this.fetchPoolMapInterval = setInterval(
             () => this.fetchTransactionPoolMap(),
             POLL_INTERVAL_MS
         )
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.fetchPoolMapInterval);
     }
 
     render() {

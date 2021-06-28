@@ -46976,9 +46976,14 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       this.fetchTransactionPoolMap();
-      setInterval(function () {
+      this.fetchPoolMapInterval = setInterval(function () {
         return _this2.fetchTransactionPoolMap();
       }, POLL_INTERVAL_MS);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.fetchPoolMapInterval);
     }
   }, {
     key: "render",
