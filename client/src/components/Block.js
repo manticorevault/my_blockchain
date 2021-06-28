@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 
 class Block extends Component {
     state = { transactionVisual: false };
@@ -14,13 +15,40 @@ class Block extends Component {
         } = this.props.block;
 
         const stringifiedData = JSON.stringify(data);
+
         const dataVisual = stringifiedData.length > 42 ? 
             `${stringifiedData.substring(0, 42)}` : 
             stringifiedData;
 
-        return  <div>
-                    Data: { dataVisual }
-                </div>  
+        if (this.state.transactionVisual) {
+            return (
+                <div>
+                    { JSON.stringify(data) }
+
+                    <br />
+
+                    <Button 
+                        bsStyle="danger" 
+                        bsSize="small" 
+                        onClick={ this.transactionToggle }> 
+                        -
+                    </Button>
+                    
+                </div>
+            )
+        }
+
+        return  (
+            <div>
+                Data: { dataVisual }
+                <Button 
+                    bsStyle="danger" 
+                    bsSize="small" 
+                    onClick={ this.transactionToggle }> 
+                    +
+                </Button>
+            </div> 
+        ); 
     }
 
     render () {
