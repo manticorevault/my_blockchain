@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import history from "../history";
 
 class Transact extends Component {
     state = { recipient: "", amount: 0 }
@@ -24,6 +25,8 @@ class Transact extends Component {
             .then( response => response.json())
             .then(json => {
                 alert(json.message || json.type);
+
+                history.push("/transaction-pool");
             });
 
     }
