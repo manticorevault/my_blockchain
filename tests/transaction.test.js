@@ -1,4 +1,4 @@
-const { REWARD_INPUT, MINING_REWARD } = require("../blockchain/config");
+const { REWARD_INPUT, MINING_REWARD } = require("../config");
 const { verifySignature } = require("../utils");
 const Wallet = require("../wallet");
 const Transaction = require ("../wallet/transaction");

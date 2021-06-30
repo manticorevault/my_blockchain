@@ -2,7 +2,7 @@ const singleBlock = require("./singleBlock");
 const Wallet = require("../wallet");
 const Transaction = require("../wallet/transaction");
 const { hashing } = require("../utils");
-const { REWARD_INPUT, MINING_REWARD } = require("./config");
+const { REWARD_INPUT, MINING_REWARD } = require("../config");
 
 // Create the blockchain class to add the first block as genesis
 class Blockchain {
