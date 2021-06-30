@@ -10,6 +10,20 @@ const TransactionPool = require("./wallet/transaction-pool");
 const Wallet = require("./wallet/index");
 const TransactionMiner = require("./application/transaction-miner");
 
+// Fetch the ENV configurations to check if it's DEV or PROD
+const isDev = process.env.ENV = "development";
+
+// Call the REDIS server URL
+const REDIS_URL = isDev ? 
+    "redis://127.0.0.1:6379" :
+    "redis://:pdf5a0ef3ec7363609aa34bbfb1037d653a212f6192da994eed4a9b4b97b61a65@ec2-3-227-65-108.compute-1.amazonaws.com:27979"
+
+// Define the DEFAULT_PORT to 3000 
+const DEFAULT_PORT = 3000;
+
+// Call the root node address
+const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+
 // Start the app
 const app = express();
 const blockchain = new Blockchain();
@@ -20,17 +34,11 @@ const wallet = new Wallet();
 // Bring in the Transaction Pool
 const transactionPool = new TransactionPool();
 
-// Bring in the PubSub instance and attach the blockchain and transactionPool
-const pubsub = new PubSub({ blockchain, transactionPool });
+// Bring in the PubSub instance and attach the blockchain, transactionPool and REDIS_URL
+const pubsub = new PubSub({ blockchain, transactionPool, redisUrl: REDIS_URL });
 
 // Bring in and instantiate the TransactionMiner
 const transactionMiner = new TransactionMiner({ blockchain, transactionPool, wallet, pubsub });
-
-// Define the DEFAULT_PORT to 3000 
-const DEFAULT_PORT = 3000;
-
-// Call the root node address
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 // Call the bodyParser middleware
 app.use(bodyParser.json());
@@ -147,57 +155,62 @@ const syncWithRoot = () => {
     });
 };
 
-// Add two test wallets for development purpose, to create transactional data visualized in the front end
-const walletTest = new Wallet();
-const walletDev = new Wallet();
+// A simple check to define which environment it's running on
+if (isDev) {
+        // Add two test wallets for development purpose, to create transactional data visualized in the front end
+    const walletTest = new Wallet();
+    const walletDev = new Wallet();
 
-// Create a helper method to help conduct transactions between wallets
-const generateWalletTransaction = ({ wallet, recipient, amount }) => {
-    const transaction = wallet.createTransaction({
-        recipient,
-        amount,
-        chain: blockchain.chain
+    // Create a helper method to help conduct transactions between wallets
+    const generateWalletTransaction = ({ wallet, recipient, amount }) => {
+        const transaction = wallet.createTransaction({
+            recipient,
+            amount,
+            chain: blockchain.chain
+        });
+
+        transactionPool.setTransaction(transaction);
+    };
+
+    // Create helper methods to deal with walletActions
+    const walletAction = () => generateWalletTransaction({
+        wallet, 
+        recipient: walletTest.publicKey, 
+        amount: 10
     });
 
-    transactionPool.setTransaction(transaction);
-};
+        
+    const walletTestAction = () => generateWalletTransaction({
+        wallet: walletTest,
+        recipient: walletDev.publicKey,
+        amount: 15
+    });
 
-// Create helper methods to deal with walletActions
-const walletAction = () => generateWalletTransaction({
-    wallet, 
-    recipient: walletTest.publicKey, 
-    amount: 10
-});
+    const walletDevAction = () => generateWalletTransaction({
+        wallet: walletDev,
+        recipient: wallet.publicKey,
+        amount: 25
+    });
 
-    
-const walletTestAction = () => generateWalletTransaction({
-    wallet: walletTest,
-    recipient: walletDev.publicKey,
-    amount: 15
-});
+    // Create a loop to conduct a combination of these helper method transactions
+    for (let counter = 0; counter < 10; counter++) {
+        if (counter%3 === 0) {
+            walletAction();
+            walletTestAction();
+        } else if (counter%3 === 1) {
+            walletAction();
+            walletDevAction();
+        } else {
+            walletTestAction();
+            walletDevAction();
+        }
 
-const walletDevAction = () => generateWalletTransaction({
-    wallet: walletDev,
-    recipient: wallet.publicKey,
-    amount: 25
-});
-
-// Create a loop to conduct a combination of these helper method transactions
-for (let counter = 0; counter < 10; counter++) {
-    if (counter%3 === 0) {
-        walletAction();
-        walletTestAction();
-    } else if (counter%3 === 1) {
-        walletAction();
-        walletDevAction();
-    } else {
-        walletTestAction();
-        walletDevAction();
+        // Call the transactionMiner to mineTransactions() and add them to the blockchain
+        transactionMiner.mineTransactions();
     }
 
-    // Call the transactionMiner to mineTransactions() and add them to the blockchain
-    transactionMiner.mineTransactions();
 }
+
 
 // Creates the variable PEER_PORT
 let PEER_PORT;
@@ -207,8 +220,8 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
     PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
 }
 
-// Defines the PORT as the PEER_PORT or the DEFAULT_PORT, whichever is available
-const PORT = PEER_PORT || DEFAULT_PORT;
+// Defines the PORT as the ENV PORT, the PEER_PORT or the DEFAULT_PORT, whichever is available
+const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT;
 
 app.listen(PORT, () => {
     console.log(`It's connected and running on port ${PORT}`);
